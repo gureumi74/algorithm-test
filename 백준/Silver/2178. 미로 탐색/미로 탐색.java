@@ -2,7 +2,8 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    public void solution(int[][] board) {
+    public void solution(int[][] board) throws IOException {
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         int[] dx = {1, 0, -1, 0};
         int[] dy = {0, 1, 0, -1};
         boolean[][] visit = new boolean[board.length][board[0].length];
@@ -23,11 +24,11 @@ public class Main {
                 queue.add(new ArrayList<Integer>(Arrays.asList(nx, ny)));
             }
         }
-        System.out.println(moveCount[board.length - 1][board[0].length - 1]);
+        bw.write(String.valueOf(moveCount[board.length - 1][board[0].length - 1]));
+        bw.close();
     }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
