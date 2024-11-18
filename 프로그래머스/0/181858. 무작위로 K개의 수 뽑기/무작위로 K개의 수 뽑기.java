@@ -1,20 +1,21 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 class Solution {
     public int[] solution(int[] arr, int k) {
-        int[] answer = new int[k];
-        Arrays.fill(answer, -1);
-        int[] num = new int[100001];
-        int check = 0;
-    
-
+        ArrayList<Integer> list = new ArrayList<>();
         for(int i = 0; i < arr.length; i++) {
-            System.out.println(i);
-            if(num[arr[i]] == 0 && check < k) {
-                answer[check] = arr[i];
-                check++;
-                num[arr[i]]++;
+            if(!list.contains(arr[i]) && list.size() < k) {
+                list.add(arr[i]);
             }
         }
-        return answer;
+
+        int size = list.size();
+
+        if(list.size() < k) {
+            for(int i = 0; i < k - size; i++) {
+                list.add(-1);
+            }
+        }
+        return list.stream().mapToInt(i -> i).toArray();
     }
 }
