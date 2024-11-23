@@ -4,7 +4,7 @@ class Solution {
         char x = s.charAt(0);
         int sameCnt = 0;
         int diffCnt = 0;
-
+        
         for(int i = 0; i < s.length(); i++) {
             if(s.charAt(i) == x) {
                 sameCnt++;
