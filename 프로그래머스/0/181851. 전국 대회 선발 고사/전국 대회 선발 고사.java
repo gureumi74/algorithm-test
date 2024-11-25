@@ -2,13 +2,11 @@ import java.util.*;
 class Test {
     int no;
     int rank;
-    boolean isAttedance;
 
 
-    public Test(int no, int rank, boolean isAttedance) {
+    public Test(int no, int rank) {
         this.no = no;
         this.rank = rank;
-        this.isAttedance = isAttedance;
     }
 }
 class Solution {
@@ -16,7 +14,9 @@ class Solution {
         ArrayList<Test> list = new ArrayList<>();
 
         for(int i = 0; i < rank.length; i++) {
-            list.add(new Test(i, rank[i], attendance[i]));
+            if(attendance[i]) {
+                list.add(new Test(i, rank[i]));
+            }
         }
 
         Collections.sort(list, new Comparator<Test>() {
@@ -26,20 +26,7 @@ class Solution {
             }
         });
 
-        int cnt = 1;
-        int idx = 0;
-        int mul = 10000;
-        int answer = 0;
-
-        while (cnt <= 3) {
-            if (list.get(idx).isAttedance) {
-                answer += list.get(idx++).no * mul;
-                mul /= 100;
-                cnt++;
-            } else {
-                idx++;
-            }
-        }
+        int answer = list.get(0).no * 10000 + list.get(1).no * 100 + list.get(2).no;
         return answer;
     }
 }
