@@ -1,23 +1,14 @@
-import java.util.ArrayList;
+import java.util.Arrays;
 class Solution {
     public String[] solution(String[] str_list) {
-        ArrayList<String> list = new ArrayList<>();
-        boolean isCheck = false;
-        for(String s : str_list) {
-            if(!isCheck && s.equals("l")) {
-               break;
-            } else if (!isCheck && s.equals("r")) {
-                isCheck = true;
-                list.clear();
-            } else {
-                list.add(s);
+        for(int i = 0; i < str_list.length; i++) {
+            if(str_list[i].equals("l")) {
+                return Arrays.copyOfRange(str_list, 0, i);
+            } else if (str_list[i].equals("r")) {
+                return Arrays.copyOfRange(str_list, i + 1, str_list.length);
             }
         }
-        
-        if(list.size() == str_list.length) {
-            list.clear();
-        }
 
-        return list.toArray(new String[list.size()]);
+        return new String[0];
     }
 }
