@@ -7,10 +7,9 @@ class Solution {
             list.add(n);
         }
 
-        for(int i = 0 ; i < delete_list.length; i++) {
-            if(list.contains(delete_list[i])) {
-                int idx = list.indexOf(delete_list[i]);
-                list.remove(idx);
+        for(int n : delete_list) {
+            if(list.contains(n)) {
+                list.remove((Integer) n);
             }
         }
         return list.stream().mapToInt(x -> x).toArray();
