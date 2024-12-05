@@ -2,14 +2,13 @@ import java.util.Arrays;
 
 class Solution {
     public int[] solution(int[] arr) {
-        int length = arr.length;
-
-        int n = 1;
-        while (n < length) {
-            n = n << 1;
+        int length = 1;
+        
+        while (arr.length > length) {
+            length *= 2;
         }
 
-        int[] answer = Arrays.copyOfRange(arr, 0, arr.length + n - length);
+        int[] answer = Arrays.copyOf(arr, length);
         return answer;
     }
 }
