@@ -4,21 +4,20 @@ import java.util.StringTokenizer;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        int sizeN = Integer.parseInt(br.readLine());
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int xNum = Integer.parseInt(br.readLine());
-        int[] checkNum = new int[2000000];
-        int count = 0;
+        int n = Integer.parseInt(br.readLine());
 
-        for(int i = 0; i < sizeN; i++) {
-            int n = Integer.parseInt(st.nextToken());
-            if(xNum > n && checkNum[xNum - n] == 1) {
-                count++;
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int[] numCnt = new int[2000000];
+        int x = Integer.parseInt(br.readLine());
+        int result = 0;
+        for (int i = 0; i < n; i++) {
+            int num = Integer.parseInt(st.nextToken());
+            if (num < x && numCnt[x - num] == 1) {
+                result++;
             }
-            checkNum[n] = 1;
+            numCnt[num] = 1;
         }
-        bw.write(String.valueOf(count));
-        bw.close();
+
+        System.out.println(result);
     }
 }
