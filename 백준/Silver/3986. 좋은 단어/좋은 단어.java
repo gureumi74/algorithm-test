@@ -1,27 +1,29 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Stack;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        int caseNum = Integer.parseInt(br.readLine());
-        int count = 0;
-        for(int i = 0; i < caseNum; i++) {
-            String[] input = br.readLine().split("");
-            Stack<String> stack = new Stack();
-            for(int j = 0; j < input.length; j++) {
-                if(!stack.empty() && stack.peek().equals(input[j])) {
-                    stack.pop();
+        int n = Integer.parseInt(br.readLine());
+        int result = 0;
+        for (int i = 0; i < n; i++) {
+            String input = br.readLine();
+            Stack<String> stack = new Stack<>();
+            for(String s : input.split("")) {
+                if(stack.isEmpty() || !stack.peek().equals(s)) {
+                    stack.push(s);
                 } else {
-                    stack.push(input[j]);
+                    stack.pop();
                 }
             }
-            if(stack.empty()) {
-               count++;
+
+            if(stack.isEmpty()) {
+                result++;
             }
         }
-        bw.write(String.valueOf(count));
-        bw.close();
+
+        System.out.println(result);
     }
 }
