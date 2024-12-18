@@ -1,56 +1,64 @@
 import java.io.*;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class Main {
-    // 유기농 배추
-    public int solution(int[][] board) {
-        int[] dx = {1, 0, -1, 0};
-        int[] dy = {0, 1, 0, -1};
-        Queue<ArrayList<Integer>> queue = new LinkedList<>();
-        boolean[][] visit = new boolean[board.length][board[0].length];
-        int count = 0;
-        for(int i = 0; i < board.length; i++) {
-            for(int j = 0; j < board[0].length; j++) {
-                if(visit[i][j] || board[i][j] != 1) continue;
-                count++;
-                visit[i][j] = true;
-                queue.add(new ArrayList<Integer>(Arrays.asList(i, j)));
-                while (!queue.isEmpty()) {
-                    ArrayList<Integer> cur = queue.poll();
-                    for (int k = 0; k < 4; k++) {
-                        int nx = cur.get(0) + dx[k];
-                        int ny = cur.get(1) + dy[k];
-                        if (nx < 0 || nx >= board.length || ny < 0 || ny >= board[0].length) continue;
-                        if (visit[nx][ny] || board[nx][ny] != 1) continue;
-                        visit[nx][ny] = true;
-                        queue.add(new ArrayList<Integer>(Arrays.asList(nx, ny)));
-                    }
-                }
-            }
-        }
+    static class Pair {
+        int x;
+        int y;
 
-        return count;
+        public Pair(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
     }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         int testCase = Integer.parseInt(br.readLine());
-        Main result = new Main();
 
-        for(int i = 0; i < testCase; i++) {
+        for (int t = 0; t < testCase; t++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
-            int M = Integer.parseInt(st.nextToken());
-            int N = Integer.parseInt(st.nextToken());
-            int[][] board = new int[M][N];
+            int m = Integer.parseInt(st.nextToken());
+            int n = Integer.parseInt(st.nextToken());
+            int k = Integer.parseInt(st.nextToken()); // 배추 위치 개수
 
-            int num = Integer.parseInt(st.nextToken());
-            for(int j = 0; j < num; j++) {
+            int[][] farm = new int[m][n];
+            int[][] location = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+            int result = 0;
+
+            for(int i = 0; i < k; i++) {
                 st = new StringTokenizer(br.readLine());
-                int x = Integer.parseInt(st.nextToken());
-                int y = Integer.parseInt(st.nextToken());
-                board[x][y] = 1;
+                farm[Integer.parseInt(st.nextToken())][Integer.parseInt(st.nextToken())] = 1;
             }
-            bw.write(result.solution(board) + "\n");
+
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (farm[i][j] == 1) {
+                        result++;
+                        Queue<Pair> queue = new LinkedList<>();
+                        queue.add(new Pair(i, j));
+                        farm[i][j] = 0;
+
+                        while (!queue.isEmpty()) {
+                            Pair cur = queue.poll();
+
+                            for (int l = 0; l < 4; l++) {
+                                int nx = cur.x + location[l][0];
+                                int ny = cur.y + location[l][1];
+                                if (nx < 0 || ny < 0 || nx >= m || ny >= n) continue;
+                                if (farm[nx][ny] == 0) continue;
+                                queue.add(new Pair(nx, ny));
+                                farm[nx][ny] = 0;
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            bw.write(String.valueOf(result + "\n"));
         }
         bw.close();
     }
