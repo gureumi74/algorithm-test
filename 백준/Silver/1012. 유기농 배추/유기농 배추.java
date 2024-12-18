@@ -58,7 +58,7 @@ public class Main {
                 }
             }
 
-            bw.write(String.valueOf(result + "\n"));
+            bw.write(result + "\n");
         }
         bw.close();
     }
