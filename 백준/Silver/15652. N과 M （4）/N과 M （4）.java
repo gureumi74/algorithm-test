@@ -1,34 +1,32 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.io.*;
 
 public class Main {
-    static int N, M, arr[];
-    static StringBuilder sb = new StringBuilder();
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-        arr = new int[M];
-        solution(0, 1);
-        System.out.println(sb);
-    }
-    static void solution(int k, int start) {
-        // 중복 가능하나, 비내림차순
-        if(k == M) {
-            for(int val : arr) {
-                sb.append(val + " ");
+    static BufferedReader br;
+    static BufferedWriter bw;
+    static int n, m, select[];
+    public static void solution(int depth, int idx) throws IOException {
+        if(depth == m) {
+            for(int num: select) {
+                bw.write(num + " ");
             }
-            sb.append("\n");
+            bw.write("\n");
             return;
         }
 
-        for(int i = start; i <= N; i++) {
-            arr[k] = i;
-            solution(k + 1, i);
+        for(int i = idx; i < n; i++) {
+            select[depth] = i + 1;
+            solution(depth + 1, idx);
+            idx++;
         }
+    }
+    public static void main(String[] args) throws IOException {
+        br = new BufferedReader(new InputStreamReader(System.in));
+        bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        String[] input = br.readLine().split(" ");
+        n = Integer.parseInt(input[0]);
+        m = Integer.parseInt(input[1]);
+        select = new int[m];
+        solution(0, 0);
+        bw.close();
     }
 }
