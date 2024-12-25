@@ -1,47 +1,41 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int N, M, arr[], input[];
-
-    // 중복값을 받지 않기 위해 hashset사용
-    static LinkedHashSet<String> hs = new LinkedHashSet();
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-        arr = new int[M];
-        input = new int[N];
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N; i++) {
-            input[i] = Integer.parseInt(st.nextToken());
-        }
-        Arrays.sort(input);
-        solution(0);
-
-        for (String s : hs) {
-            System.out.println(s);
-        }
-    }
-    static void solution(int k) {
-        // 어차피 현재 값보다 작은 수는 못오니까 방문 배열 x
-        if (k == M) {
-            StringBuilder sb = new StringBuilder();
-            for (int val : arr) {
-                sb.append(val + " ");
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static int n, m, select[], arr[];
+    public static void solution(int depth) throws IOException {
+        if(depth == m) {
+            for(int num: select) {
+                bw.write(num + " ");
             }
-            hs.add(sb.toString());
+            bw.write("\n");
             return;
         }
 
-        for (int i = 0; i < N; i++) {
-            arr[k] = input[i];
-            solution(k + 1);
+        int tmp = 0;
+        for(int i = 0; i < n; i++) {
+            if(tmp != arr[i]) {
+                select[depth] = arr[i];
+                tmp = select[depth];
+                solution(depth + 1);
+            }
         }
+    }
+    public static void main(String[] args) throws IOException {
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        select = new int[m];
+        arr = new int[n];
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < n; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+        Arrays.sort(arr);
+        solution(0);
+        bw.close();
     }
 }
