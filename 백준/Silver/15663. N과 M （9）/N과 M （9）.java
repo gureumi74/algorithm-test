@@ -1,53 +1,47 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.*;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class Main {
-    static int N, M, arr[], input[];
-    static boolean[] check;
-
-    // 중복값을 받지 않기 위해 hashset사용
-    static LinkedHashSet<String> hs = new LinkedHashSet();
-
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-        arr = new int[M];
-        input = new int[N];
-        check = new boolean[N];
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N; i++) {
-            input[i] = Integer.parseInt(st.nextToken());
-        }
-        Arrays.sort(input);
-        solution(0);
-
-        for(String s : hs) {
-            System.out.println(s);
-        }
-    }
-
-    static void solution(int k) {
-        if (k == M) {
-            StringBuilder sb = new StringBuilder();
-            for (int val : arr) {
-                sb.append(val + " ");
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static int n, m, select[], arr[];
+    static boolean[] visited;
+    public static void solution(int depth) throws IOException {
+        if(depth == m) {
+            for(int num: select) {
+                bw.write(num + " ");
             }
-            hs.add(sb.toString());
+            bw.write("\n");
             return;
         }
 
-        for (int i = 0; i < N; i++) {
-            if(!check[i]) {
-                check[i] = true;
-                arr[k] = input[i];
-                solution(k + 1);
-                check[i] = false;
+        // 이전 수열의 마지막 항과 새로운 수열의 마지막 항이 같으면 중복 수열
+        int tmp = 0;
+        for(int i = 0; i < n; i++) {
+            if(!visited[i] && tmp != arr[i]) {
+                visited[i] = true;
+                select[depth] = arr[i];
+                tmp = select[depth];
+                solution(depth + 1);
+                visited[i] = false;
             }
-
         }
+    }
+    public static void main(String[] args) throws IOException {
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        select = new int[m];
+        arr = new int[n];
+        visited = new boolean[n];
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < n; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+        Arrays.sort(arr);
+        solution(0);
+        bw.close();
     }
 }
