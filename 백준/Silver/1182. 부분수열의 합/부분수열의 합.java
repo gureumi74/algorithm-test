@@ -1,35 +1,33 @@
-import java.io.*;
-import java.util.StringTokenizer;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
-    // 부분수열의 합
-    static int n, count, arr[], s;
-
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
-        s = Integer.parseInt(st.nextToken());
-        arr = new int[n];
-        st = new StringTokenizer(br.readLine());
-        for(int i = 0; i < n; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
-        }
-        func(0, 0);
-        // s가 0이면 공집합 하나가 들어감, 크기가 양수인 부분수열 이라는 조건 때문에 공집합 하나를 빼줌
-        if(s == 0) System.out.println(count - 1);
-        else System.out.println(count);
-
-    }
-    static void func(int k, int sum) {
-        if(k == n) {
-            if(sum == s) count++;
+    public static int cnt = 0;
+    public static int n, s;
+    public static int[] arr;
+    public static void solution(int cur, int total) {
+        if(cur == n) {
+            if (total == s) {
+                cnt++;
+            }
             return;
         }
 
-        func(k + 1, sum); // 다음 숫자를 더하지 않는 경우
-        func(k + 1, sum + arr[k]); // 다음 숫자를 더하는 경우
-
+        solution(cur + 1, total);
+        solution(cur + 1, total + arr[cur]);
+    }
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] input = br.readLine().split(" ");
+        n = Integer.parseInt(input[0]);
+        s = Integer.parseInt(input[1]);
+        arr = new int[n];
+        input = br.readLine().split(" ");
+        for(int i = 0; i < n; i++) {
+            arr[i] = Integer.parseInt(input[i]);
+        }
+        solution(0, 0);
+        System.out.println(s == 0 ? cnt - 1 : cnt);
     }
 }
