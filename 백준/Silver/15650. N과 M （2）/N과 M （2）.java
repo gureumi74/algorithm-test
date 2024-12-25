@@ -1,34 +1,32 @@
 import java.io.*;
-import java.util.StringTokenizer;
 
 public class Main {
-    static int n, m, arr[];
-    static StringBuilder sb = new StringBuilder();
-
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
-        arr = new int[m];
-        solution(0, 1);
-        System.out.println(sb);
-    }
-
-    static void solution(int k, int idx) {
-        // idx 는 현재 위치를 의미하는 변수
-        // 중복되는건 안찾아도 되니까 방문 배열 x
-        if (k == m) {
-            for (int val : arr) {
-                sb.append(val + " ");
+    static int n, m;
+    static int[] select;
+    static boolean[] visited;
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    public static void solution(int depth, int idx) throws IOException {
+        if(depth == m) {
+            for(int i = 0; i < m; i++) {
+                bw.write(select[i] + " ");
             }
-            sb.append("\n");
+            bw.write("\n");
             return;
         }
 
-        for (int i = idx; i <= n; i++) {
-            arr[k] = i;
-            solution(k + 1, i + 1);
+        for(int i = idx; i <= n; i++) {
+            select[depth] = i;
+            solution(depth + 1, i + 1);
         }
+    }
+    public static void main(String[] args) throws IOException {
+        String[] input = br.readLine().split(" ");
+        n = Integer.parseInt(input[0]);
+        m = Integer.parseInt(input[1]);
+        select = new int[m];
+        visited = new boolean[n];
+        solution(0, 1);
+        bw.close();
     }
 }
