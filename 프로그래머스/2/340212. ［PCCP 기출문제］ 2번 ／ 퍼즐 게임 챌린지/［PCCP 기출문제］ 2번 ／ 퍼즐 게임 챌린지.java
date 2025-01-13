@@ -6,9 +6,9 @@ class Solution {
         int p1 = 1;
         int p2 = answer;
         int level = (p1 + p2) / 2;
-        int curLevel = 0;
+        int preLevel = 0;
 
-        while (curLevel != level) {
+        while (preLevel != level) {
             long time = 0;
             for (int i = 0; i < diffs.length; i++) {
                 if (level >= diffs[i]) {
@@ -30,7 +30,7 @@ class Solution {
                 p2 = level;
             }
 
-            curLevel = level;
+            preLevel = level;
             level = (p1 + p2) / 2;
         }
 
