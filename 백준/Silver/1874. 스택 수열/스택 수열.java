@@ -1,41 +1,44 @@
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Stack;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        ArrayList<String> list = new ArrayList<>();
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuffer sb = new StringBuffer();
         int n = Integer.parseInt(br.readLine());
-        Stack<Integer> stack = new Stack<>();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = i + 1;
+        }
 
-        int element = 0;
+        Stack<Integer> stack = new Stack<>();
+        int element = 1;
+        boolean check = true;
 
         for (int i = 0; i < n; i++) {
             int num = Integer.parseInt(br.readLine());
-            if(num > element) {
-                for(int j = element + 1; j <= num; j++) {
-                    stack.push(j);
-                    list.add("+");
+            if (element <= num) {
+                while (element <= num) {
+                    stack.push(element++);
+                    sb.append("+\n");
                 }
-                element = num;
             } else {
-                if (stack.peek() != num) {
-                    list.clear();
+                if(stack.peek() != num) {
+                    bw.write("NO");
+                    check = false;
                     break;
                 }
             }
 
             stack.pop();
-            list.add("-");
+            sb.append("-\n");
         }
 
-        if(list.isEmpty()) {
-            System.out.println("NO");
-        } else {
-            for (String result : list) {
-                System.out.println(result);
-            }
+        if(check) {
+            bw.write(sb.toString());
         }
+
+        bw.close();
     }
 }
